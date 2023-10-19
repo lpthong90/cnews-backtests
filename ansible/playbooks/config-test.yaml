@@ -1,0 +1,26 @@
+- hosts: tag_Name_backtest_cnews_0
+  remote_user: ec2-user
+  strategy: free
+  tasks:
+  - name: Copy scenario file to server
+    copy:
+      src: ../../scenarios/scenario_20230901.json
+      dest: "{{ PROJECT_PATH }}/scenarios/scennario_1.json"
+
+- hosts: tag_Name_backtest_cnews_1
+  remote_user: ec2-user
+  strategy: free
+  tasks:
+  - name: Copy scenario file to server
+    copy:
+      src: ../../scenarios/scenario_20230902.json
+      dest: "{{ PROJECT_PATH }}/scenarios/scennario_1.json"
+
+- hosts: tag_Name_backtest_cnews_2
+  remote_user: ec2-user
+  strategy: free
+  tasks:
+  - name: Copy scenario file to server
+    copy:
+      src: ../../scenarios/scenario_20230903.json
+      dest: "{{ PROJECT_PATH }}/scenarios/scennario_1.json"

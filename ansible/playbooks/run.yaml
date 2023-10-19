@@ -1,0 +1,8 @@
+- hosts: all
+  remote_user: ec2-user
+  strategy: free
+  tasks:
+  - name: "Run docker-compose"
+    command: "docker-compose up --build -d"
+    args:
+      chdir: "{{ PROJECT_PATH }}"

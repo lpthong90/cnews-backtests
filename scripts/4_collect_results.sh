@@ -1,0 +1,1 @@
+ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i ./ansible/inventory.aws_ec2.yml --private-key ./keys/thong-bot-tokyo.pem ansible/playbooks/collect-results.yaml --extra-vars @./ansible/var.yml

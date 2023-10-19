@@ -1,0 +1,17 @@
+# demo.aws_ec2.yml
+plugin: amazon.aws.aws_ec2
+
+# This sets the region. If empty (the default) default this will include all regions, except possibly
+# restricted ones like us-gov-west-1 and cn-north-1.
+regions:
+- ap-northeast-1
+
+keyed_groups:
+  # add hosts to tag_Name_value groups for each aws_ec2 host's tags.Name variable.
+  - key: tags.Name
+    prefix: tag_Name_
+    separator: ""
+
+filters:
+  tag:Name:
+  - 'backtest-cnews-*'

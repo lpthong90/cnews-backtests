@@ -1,0 +1,1 @@
+ansible-inventory -i ./ansible/inventory.aws_ec2.yml --graph

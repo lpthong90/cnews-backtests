@@ -1,0 +1,76 @@
+---
+- hosts: all
+  remote_user: ec2-user
+  strategy: free
+  tasks:
+  - name: Ping all hosts
+    ping:
+  - name: Update all packages
+    become_method: sudo
+    become: yes
+    yum:
+      name: '*'
+      state: latest
+      update_only: yes
+  - name: Ensure a list of yum packages are installed
+    become_method: sudo
+    become: yes
+    yum:
+      name: "{{ packages }}"
+      state: latest
+      update_cache: yes
+    vars:
+      packages:
+      - git
+      - docker
+      - tmux
+  - name: 'sudo usermod -a -G docker ec2-user'
+    become_method: sudo
+    become: yes
+    command: usermod -a -G docker ec2-user
+  - name: 'id ec2-user'
+    command: id ec2-user
+  - name: 'newgrp docker'
+    user:
+      name: ec2-user
+      groups: docker
+      append: true
+
+  - name: enable service docker
+    become_method: sudo
+    become: yes
+    systemd:
+      name: docker
+      enabled: yes
+  - name: start service docker
+    become_method: sudo
+    become: yes
+    systemd:
+      name: docker
+      state: started
+  - name: install docker-compose
+    become_method: sudo
+    become: yes
+    get_url: 
+      url : https://github.com/docker/compose/releases/latest/download/docker-compose-Linux-x86_64
+      dest: /usr/local/bin/docker-compose
+      mode: 'u+x,g+x'
+  - name: sudo chmod +x /usr/local/bin/docker-compose
+    become_method: sudo
+    become: yes
+    command: "chmod +x /usr/local/bin/docker-compose"
+  - name: Log into Gitlab Registry
+    docker_login:
+      registry: registry.gitlab.com
+      username: "{{ GITLAB_REGISTRY_USERNAME }}"
+      password: "{{ GITLAB_REGISTRY_PASSWORD }}"
+      reauthorize: yes
+  - name: Clone project
+    git:
+      repo: "https://{{ GITLAB_USERNAME }}:{{ GITLAB_PASSWORD }}@gitlab.com/fiahub/cnews/rule-based-matching.git"
+      dest: "{{ PROJECT_PATH }}"
+      version: backtest
+  - name: Copy docker-compose file
+    copy:
+      src: ../../docker-composes/docker-compose.yaml
+      dest: "{{ PROJECT_PATH }}"

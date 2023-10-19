@@ -1,0 +1,12 @@
+.DS_Store
+.terraform/
+.terraform.lock.hcl
+terraform.tfstate
+.venv/
+tmp/
+ansible/var.yml
+docker-composes/*.yaml
+keys/*.pem
+keys/*.pub
+results/
+scenarios/*.json

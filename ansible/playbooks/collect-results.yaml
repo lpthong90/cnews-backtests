@@ -1,0 +1,26 @@
+- hosts: tag_Name_backtest_cnews_0
+  remote_user: ec2-user
+  strategy: free
+  tasks:
+  - name: Copy result to local
+    fetch:
+      src: "{{ PROJECT_PATH }}/results/trades.csv"
+      dest: ../../results/result_20230901.json
+
+- hosts: tag_Name_backtest_cnews_1
+  remote_user: ec2-user
+  strategy: free
+  tasks:
+  - name: Copy result to local
+    fetch:
+      src: "{{ PROJECT_PATH }}/results/trades.csv"
+      dest: ../../results/result_20230902.json
+
+- hosts: tag_Name_backtest_cnews_2
+  remote_user: ec2-user
+  strategy: free
+  tasks:
+  - name: Copy result to local
+    fetch:
+      src: "{{ PROJECT_PATH }}/results/trades.csv"
+      dest: ../../results/result_20230903.json
